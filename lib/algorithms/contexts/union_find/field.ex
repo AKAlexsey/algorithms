@@ -5,7 +5,7 @@ defmodule Algorithms.UnionFind.Field do
 
   alias Algorithms.UnionFind.Field
 
-  defstruct field: [], width: nil, height: nil
+  defstruct field: [], sizes: [], width: nil, height: nil
 
   def initialize(w, h \\ nil)
   def initialize(w, nil), do: initialize_field(w, w)
@@ -14,6 +14,7 @@ defmodule Algorithms.UnionFind.Field do
   defp initialize_field(w, h) do
     %__MODULE__{
       field: Enum.map((0..(w * h - 1)), fn x -> x end),
+      sizes: Enum.map((0..(w * h - 1)), fn _ -> 1 end),
       width: w,
       height: h
     }
