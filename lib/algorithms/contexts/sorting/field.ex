@@ -10,7 +10,7 @@ defmodule Algorithms.Sorting.Field do
 
   @type t :: %__MODULE__{}
 
-  defstruct field: [], width: nil, height: nil, points_number: nil, collinear_points: nil, collinear_point_sets: []
+  defstruct field: [], width: nil, height: nil, points_number: nil, collinear_points: nil
 
   @spec initialize(integer, integer, integer, integer) :: %__MODULE__{}
   def initialize(points_number \\ 100, collinear_points \\ 10, width \\ 10, height \\ 10) do
