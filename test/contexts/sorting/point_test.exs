@@ -21,6 +21,7 @@ defmodule Algorithms.Sorting.PointTest do
       %Field{width: max_x, height: max_y} = field
       %Point{x: x, y: y} = Point.random_for_field(field)
       assert x < max_x and y < max_y
+      assert x > 0 and y > 0
     end
   end
 
@@ -32,8 +33,8 @@ defmodule Algorithms.Sorting.PointTest do
       slope13 = Point.slope_to(p1, p3)
       slope14 = Point.slope_to(p1, p4)
 
-      assert slope12 == slope13
-      assert slope12 == slope14
+      assert Float.ceil(slope12, 9) == Float.ceil(slope13, 9)
+      assert Float.ceil(slope12, 9) == Float.ceil(slope14, 9)
     end
   end
 
