@@ -12,10 +12,19 @@ defmodule Algorithms.Sorting.Field do
 
   @type t :: %__MODULE__{}
 
-  defstruct field: [], width: nil, height: nil, simple_points_number: nil, collinear_points_number: nil
+  defstruct field: [],
+            width: nil,
+            height: nil,
+            simple_points_number: nil,
+            collinear_points_number: nil
 
   @spec initialize(integer, integer, integer, integer) :: %__MODULE__{}
-  def initialize(simple_points_number \\ 100, collinear_points_number \\ 12, width \\ 10, height \\ 10) do
+  def initialize(
+        simple_points_number \\ 100,
+        collinear_points_number \\ 12,
+        width \\ 10,
+        height \\ 10
+      ) do
     %__MODULE__{
       width: width,
       height: height,
@@ -24,8 +33,15 @@ defmodule Algorithms.Sorting.Field do
     }
   end
 
-  def initialize_test_field(simple_points_number \\ 100, collinear_points_ratio \\ 0.1, width \\ 10, height \\ 10) do
-    collinear_points_number = calculate_collinear_points(simple_points_number, collinear_points_ratio)
+  def initialize_test_field(
+        simple_points_number \\ 100,
+        collinear_points_ratio \\ 0.1,
+        width \\ 10,
+        height \\ 10
+      ) do
+    collinear_points_number =
+      calculate_collinear_points(simple_points_number, collinear_points_ratio)
+
     initialize(simple_points_number, collinear_points_number, width, height)
     |> generate_points()
   end
@@ -42,13 +58,14 @@ defmodule Algorithms.Sorting.Field do
       collinear_points_number: collinear_points_number
     } = field
 
-    collinear_points = Kernel.trunc(collinear_points_number / 4)
-    |> array_with_n_elems(fn _n -> Point.random_colinear_points_for_field(field) end)
-    |> Enum.flat_map(&(&1))
+    collinear_points =
+      Kernel.trunc(collinear_points_number / 4)
+      |> array_with_n_elems(fn _n -> Point.random_colinear_points_for_field(field) end)
+      |> Enum.flat_map(& &1)
 
-    simple_points = (simple_points_number - collinear_points_number)
-    |> array_with_n_elems(fn _n -> Point.random_for_field(field) end)
-
+    simple_points =
+      (simple_points_number - collinear_points_number)
+      |> array_with_n_elems(fn _n -> Point.random_for_field(field) end)
 
     {
       :ok,
@@ -59,9 +76,11 @@ defmodule Algorithms.Sorting.Field do
 
   defp array_with_n_elems(n, element_function) do
     case n do
-      0 -> []
+      0 ->
+        []
+
       number ->
-        (1..number)
+        1..number
         |> Enum.map(&element_function.(&1))
     end
   end

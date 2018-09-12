@@ -8,9 +8,9 @@ defmodule Algorithms.Sorting.Utils do
       when is_integer(number) and is_integer(max) and number <= max do
     case Integer.mod(number, 4) do
       0 -> number
-      diff -> number + (4 - diff)
+      diff -> number - diff
     end
-    |> (fn answer -> if(answer >= max, do: answer - 4, else: answer) end).()
+    |> (fn answer -> if(answer > max, do: answer - 4, else: answer) end).()
   end
 
   def closest_fourth_dividable(_number, _max), do: 0
