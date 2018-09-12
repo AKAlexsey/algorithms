@@ -70,7 +70,7 @@ defmodule Algorithms.Sorting.Field do
     {
       :ok,
       Map.put(field, :field, Enum.shuffle(simple_points ++ collinear_points)),
-      collinear_points
+      Enum.sort_by(collinear_points, fn %{x: x} -> x end)
     }
   end
 
