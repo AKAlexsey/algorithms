@@ -38,6 +38,7 @@ defmodule Algorithms.Sorting.Point do
   def slope_to(%__MODULE__{x: x1, y: y1}, %__MODULE__{x: x2, y: y2}) do
     case (x2 - x1) do
       0.0 -> :infinity
+      0 -> :infinity
       dx ->
         Float.ceil(((y2 - y1) / dx), 9)
     end

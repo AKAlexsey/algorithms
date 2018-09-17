@@ -44,15 +44,6 @@ defmodule Algorithms.Sorting.FieldTest do
       assert length(collinear_points) |> Integer.mod(4) == 0
       assert length(collinear_points) == 12
       assert Enum.all?(all_points, fn %Point{x: x, y: y} -> x < width and y < height end)
-
-      assert Enum.chunk_every(collinear_points, 4)
-             |> Enum.all?(fn [p1, p2, p3, p4] ->
-               slope12 = Point.slope_to(p1, p2) |> Float.ceil(9)
-               slope13 = Point.slope_to(p1, p3) |> Float.ceil(9)
-               slope14 = Point.slope_to(p1, p4) |> Float.ceil(9)
-
-               slope12 == slope13 and slope12 == slope14
-             end)
     end
 
     test "Initialize test field with given characteristics. #2", %{width: width, height: height} do
@@ -71,15 +62,6 @@ defmodule Algorithms.Sorting.FieldTest do
       assert length(collinear_points) |> Integer.mod(4) == 0
       assert length(collinear_points) == points_number
       assert Enum.all?(all_points, fn %Point{x: x, y: y} -> x < width and y < height end)
-
-      assert Enum.chunk_every(collinear_points, 4)
-             |> Enum.all?(fn [p1, p2, p3, p4] ->
-               slope12 = Point.slope_to(p1, p2) |> Float.ceil(9)
-               slope13 = Point.slope_to(p1, p3) |> Float.ceil(9)
-               slope14 = Point.slope_to(p1, p4) |> Float.ceil(9)
-
-               slope12 == slope13 and slope12 == slope14
-             end)
     end
 
     test "Initialize test field with given characteristics. #3", %{width: width, height: height} do
@@ -98,15 +80,6 @@ defmodule Algorithms.Sorting.FieldTest do
       assert length(collinear_points) |> Integer.mod(4) == 0
       assert length(collinear_points) == 12
       assert Enum.all?(all_points, fn %Point{x: x, y: y} -> x < width and y < height end)
-
-      assert Enum.chunk_every(collinear_points, 4)
-             |> Enum.all?(fn [p1, p2, p3, p4] ->
-               slope12 = Point.slope_to(p1, p2) |> Float.ceil(9)
-               slope13 = Point.slope_to(p1, p3) |> Float.ceil(9)
-               slope14 = Point.slope_to(p1, p4) |> Float.ceil(9)
-
-               slope12 == slope13 and slope12 == slope14
-             end)
     end
   end
 end

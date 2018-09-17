@@ -10,8 +10,8 @@ defmodule Algorithms.Sorting.PointTest do
 
   describe "#initialize" do
     test "Initialize point with given coordinates" do
-      x = :random.uniform()
-      y = :random.uniform()
+      x = :rand.uniform()
+      y = :rand.uniform()
       assert %Point{x: ^x, y: ^y} = Point.initialize(x, y)
     end
   end
