@@ -8,6 +8,7 @@ defmodule Algorithms.PriorityQueue.Field do
   @type t :: %__MODULE__{}
   defstruct standard_field: [], game_field: [], width: 3, height: 3
 
+  @spec initialize(integer, integer) :: __MODULE__.t()
   def initialize(width \\ 3, height \\ 3) do
     field = initialize_standard_field(width, height)
 
@@ -38,6 +39,7 @@ defmodule Algorithms.PriorityQueue.Field do
     end)
   end
 
+  @spec swap(%__MODULE__{}, {integer, integer}) :: __MODULE__.t()
   def swap(%__MODULE__{} = field, swapping) do
     empty_tile = empty_tile_coordinate(field)
 
@@ -64,6 +66,7 @@ defmodule Algorithms.PriorityQueue.Field do
     |> Map.put(:game_field, new_game_field)
   end
 
+  @spec allowed_swap(%__MODULE__{}) :: list({integer, integer})
   def allowed_swap(%__MODULE__{width: w, height: h} = field_model) do
     {x, y} = empty_tile_coordinate(field_model)
 
@@ -85,6 +88,7 @@ defmodule Algorithms.PriorityQueue.Field do
     end)
   end
 
+  @spec allowed_swap(%__MODULE__{}) :: {integer, integer}
   def empty_tile_coordinate(%__MODULE__{game_field: field, width: width, height: height}) do
     0..(height - 1)
     |> Enum.reduce_while({}, fn j, result1 ->
@@ -105,6 +109,7 @@ defmodule Algorithms.PriorityQueue.Field do
     end)
   end
 
+  @spec shuffle(%__MODULE__{}, integer) :: __MODULE__.t()
   def shuffle(%__MODULE__{} = field, rate) when rate > 0 and is_integer(rate) do
     allowed = allowed_swap(field)
     swapping = Enum.at(allowed, :rand.uniform(length(allowed)) - 1)
@@ -112,8 +117,5 @@ defmodule Algorithms.PriorityQueue.Field do
     |> swap(swapping)
     |> shuffle(rate - 1)
   end
-
-  def shuffle(%__MODULE__{} = field, 0) do
-    field
-  end
+  def shuffle(%__MODULE__{} = field, 0), do: field
 end
