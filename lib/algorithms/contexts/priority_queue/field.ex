@@ -6,21 +6,18 @@ defmodule Algorithms.PriorityQueue.Field do
   @empty_field 0
 
   @type t :: %__MODULE__{}
-  defstruct standard_field: [], game_field: [], width: 3, height: 3
+  defstruct game_field: [], width: 3, height: 3
 
   @spec initialize(integer, integer) :: __MODULE__.t()
   def initialize(width \\ 3, height \\ 3) do
-    field = initialize_standard_field(width, height)
-
     %__MODULE__{
-      standard_field: field,
-      game_field: field,
+      game_field: initialize_standard_field(width, height),
       width: width,
       height: height
     }
   end
 
-  defp initialize_standard_field(width, height) do
+  def initialize_standard_field(width, height) do
     1..height
     |> Enum.reduce([], fn j, field ->
       field_row =

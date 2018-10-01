@@ -6,7 +6,6 @@ defmodule Algorithms.PriorityQueue.FieldTest do
   describe "#initialize" do
     test "Initialize 3x3 standard field if no paramteters given" do
       assert %Field{
-               standard_field: [[1, 2, 3], [4, 5, 6], [7, 8, 0]],
                game_field: [[1, 2, 3], [4, 5, 6], [7, 8, 0]],
                width: 3,
                height: 3
@@ -15,7 +14,6 @@ defmodule Algorithms.PriorityQueue.FieldTest do
 
     test "Initialize field with given attributes" do
       assert %Field{
-               standard_field: [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 0]],
                game_field: [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 0]],
                width: 4,
                height: 3
@@ -26,7 +24,6 @@ defmodule Algorithms.PriorityQueue.FieldTest do
   describe "#swap" do
     test "Get right swaps if empty point in corner #1" do
       field = %Field{
-        standard_field: [[1, 2, 3], [4, 5, 6], [7, 8, 0]],
         game_field: [[1, 2, 3], [4, 5, 6], [7, 8, 0]],
         width: 3,
         height: 3
@@ -47,7 +44,6 @@ defmodule Algorithms.PriorityQueue.FieldTest do
   describe "#allowed_swap" do
     test "Get right swaps if empty point in corner #1" do
       field = %Field{
-        standard_field: [[1, 2, 3], [4, 5, 6], [7, 8, 0]],
         game_field: [[1, 2, 3], [4, 5, 6], [7, 8, 0]],
         width: 3,
         height: 3
@@ -58,7 +54,6 @@ defmodule Algorithms.PriorityQueue.FieldTest do
 
     test "Get right swaps if empty point in corner #2" do
       field = %Field{
-        standard_field: [[1, 2, 3], [4, 5, 6], [7, 8, 0]],
         game_field: [[0, 2, 3], [1, 5, 6], [4, 7, 8]],
         width: 3,
         height: 3
@@ -69,7 +64,6 @@ defmodule Algorithms.PriorityQueue.FieldTest do
 
     test "Get right swaps if empty point lie on edge #1" do
       field = %Field{
-        standard_field: [[1, 2, 3], [4, 5, 6], [7, 8, 0]],
         game_field: [[2, 0, 3], [1, 5, 6], [4, 7, 8]],
         width: 3,
         height: 3
@@ -80,7 +74,6 @@ defmodule Algorithms.PriorityQueue.FieldTest do
 
     test "Get right swaps if empty point lie on edge #2" do
       field = %Field{
-        standard_field: [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 0]],
         game_field: [[1, 2, 0, 4], [5, 6, 3, 8], [9, 10, 7, 11]],
         width: 4,
         height: 3
@@ -91,7 +84,6 @@ defmodule Algorithms.PriorityQueue.FieldTest do
 
     test "Get right swaps if empty point in the middle of ield #1" do
       field = %Field{
-        standard_field: [[1, 2, 3], [4, 5, 6], [7, 8, 0]],
         game_field: [[2, 0, 3], [1, 5, 6], [4, 7, 8]],
         width: 3,
         height: 3
@@ -102,7 +94,6 @@ defmodule Algorithms.PriorityQueue.FieldTest do
 
     test "Get right swaps if empty point in the middle of ield #2" do
       field = %Field{
-        standard_field: [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 0]],
         game_field: [[1, 2, 3, 4], [5, 6, 0, 8], [9, 10, 7, 11]],
         width: 4,
         height: 3
@@ -113,7 +104,6 @@ defmodule Algorithms.PriorityQueue.FieldTest do
 
     test "Get right swaps even in one dimensional field #1" do
       field = %Field{
-        standard_field: [[1, 2, 3, 0]],
         game_field: [[1, 2, 3, 0]],
         width: 4,
         height: 1
@@ -124,7 +114,6 @@ defmodule Algorithms.PriorityQueue.FieldTest do
 
     test "Get right swaps even in one dimensional field #2" do
       field = %Field{
-        standard_field: [[1], [0], [2], [3]],
         game_field: [[1], [0], [2], [3]],
         width: 1,
         height: 4
@@ -137,7 +126,6 @@ defmodule Algorithms.PriorityQueue.FieldTest do
   describe "#empty_tile_coordinate" do
     test "Return right coordinate #1" do
       field = %Field{
-        standard_field: [[1, 2, 3], [4, 5, 6], [7, 8, 0]],
         game_field: [[1, 2, 3], [4, 5, 6], [7, 8, 0]],
         width: 3,
         height: 3
@@ -148,7 +136,6 @@ defmodule Algorithms.PriorityQueue.FieldTest do
 
     test "Return right coordinate #2 use game field" do
       field = %Field{
-        standard_field: [[1, 2, 3], [4, 5, 6], [7, 8, 0]],
         game_field: [[1, 2, 3], [0, 5, 6], [4, 7, 8]],
         width: 3,
         height: 3
@@ -159,7 +146,6 @@ defmodule Algorithms.PriorityQueue.FieldTest do
 
     test "Return right coordinate #3 for not standard size" do
       field = %Field{
-        standard_field: [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 0]],
         game_field: [[1, 2, 0, 4], [5, 6, 3, 8], [9, 10, 7, 11]],
         width: 3,
         height: 3
