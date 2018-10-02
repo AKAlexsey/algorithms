@@ -54,11 +54,13 @@ defmodule Algorithms.PriorityQueue.Field do
   end
 
   defp set_value(%__MODULE__{game_field: game_field} = field, {x, y}, value) do
-    new_game_field = game_field
-    |> List.update_at(y, fn row ->
-      row
-      |> List.update_at(x, fn _val -> value end)
-    end)
+    new_game_field =
+      game_field
+      |> List.update_at(y, fn row ->
+        row
+        |> List.update_at(x, fn _val -> value end)
+      end)
+
     field
     |> Map.put(:game_field, new_game_field)
   end
@@ -67,17 +69,19 @@ defmodule Algorithms.PriorityQueue.Field do
   def allowed_swap(%__MODULE__{width: w, height: h} = field_model) do
     {x, y} = empty_tile_coordinate(field_model)
 
-    vertical_swap = cond do
-      y == 0 -> [{x, 1}]
-      y == (h - 1) -> [{x, y - 1}]
-      true -> [{x, y - 1}, {x, y + 1}]
-    end
+    vertical_swap =
+      cond do
+        y == 0 -> [{x, 1}]
+        y == h - 1 -> [{x, y - 1}]
+        true -> [{x, y - 1}, {x, y + 1}]
+      end
 
-    horizontal_swap = cond do
-      x == 0 -> [{1, y}]
-      x == (w - 1) -> [{x - 1, y}]
-      true -> [{x - 1, y}, {x + 1, y}]
-    end
+    horizontal_swap =
+      cond do
+        x == 0 -> [{1, y}]
+        x == w - 1 -> [{x - 1, y}]
+        true -> [{x - 1, y}, {x + 1, y}]
+      end
 
     (vertical_swap ++ horizontal_swap)
     |> Enum.filter(fn {x, y} ->
@@ -110,9 +114,18 @@ defmodule Algorithms.PriorityQueue.Field do
   def shuffle(%__MODULE__{} = field, rate) when rate > 0 and is_integer(rate) do
     allowed = allowed_swap(field)
     swapping = Enum.at(allowed, :rand.uniform(length(allowed)) - 1)
+
     field
     |> swap(swapping)
     |> shuffle(rate - 1)
   end
+
   def shuffle(%__MODULE__{} = field, 0), do: field
+
+  def solved?(%__MODULE__{game_field: game_field}, standard_field)
+      when game_field == standard_field do
+    true
+  end
+
+  def solved?(_game_field, _standard_field), do: false
 end

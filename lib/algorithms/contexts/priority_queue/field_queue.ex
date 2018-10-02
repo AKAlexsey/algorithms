@@ -10,8 +10,9 @@ defmodule Algorithms.PriorityQueue.FieldQueue do
   def priority_function(%Field{game_field: game_field, width: width, height: height}) do
     standard_field = Field.initialize_standard_field(width, height)
 
-    hamming_distance(game_field, standard_field, width, height) +
-    manhattan_distance(game_field, standard_field, width, height)
+    -1 *
+      (hamming_distance(game_field, standard_field, width, height) +
+         manhattan_distance(game_field, standard_field, width, height))
   end
 
   defp hamming_distance(game_field, standard_field, width, height) do
@@ -37,6 +38,7 @@ defmodule Algorithms.PriorityQueue.FieldQueue do
       0..(width - 1)
       |> Enum.reduce(distance1, fn i, distance2 ->
         game_value = get_value(game_field, i, j)
+
         if game_value == 0 do
           distance2
         else
@@ -55,9 +57,10 @@ defmodule Algorithms.PriorityQueue.FieldQueue do
   end
 
   defp find_indexes(value, standard_field, width, height) do
-      0..(height - 1)
-      |> Enum.reduce_while({}, fn j, pair1 ->
-        result1 = 0..(width - 1)
+    0..(height - 1)
+    |> Enum.reduce_while({}, fn j, pair1 ->
+      result1 =
+        0..(width - 1)
         |> Enum.reduce_while({}, fn i, pair12 ->
           if(value == get_value(standard_field, i, j)) do
             {:halt, {i, j}}
@@ -69,6 +72,6 @@ defmodule Algorithms.PriorityQueue.FieldQueue do
           {x, y} -> {:halt, {x, y}}
           {} -> {:cont, {}}
         end
-      end)
-    end
+    end)
+  end
 end
