@@ -1,10 +1,18 @@
 defmodule Algorithms.PriorityQueue.Test do
   @moduledoc false
 
-  alias Algorithms.PriorityQueue.{Field, Algorithm}
+  alias Algorithms.PriorityQueue.{Field, Algorithm, FieldQueue}
 
-  def perform do
+  def perform(shuffle_ratio \\ nil)
+  def perform(shuffle_ratio) do
+    Field.initialize()
+    |> Field.shuffle(shuffle_ratio)
+    |> print_field_data()
+    |> Algorithm.perform()
+  end
+  def perform(nil) do
     field()
+    |> print_field_data()
     |> Algorithm.perform()
   end
 
@@ -15,5 +23,11 @@ defmodule Algorithms.PriorityQueue.Test do
       height: 3,
       width: 3
     }
+  end
+
+  defp print_field_data(field) do
+    IO.puts("!!! field:\n #{inspect(field)}\n")
+    IO.puts("priority: #{FieldQueue.priority_function(field)}\n")
+    field
   end
 end

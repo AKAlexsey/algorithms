@@ -8,6 +8,8 @@ defmodule Algorithms.PriorityQueue.Field do
   @type t :: %__MODULE__{}
   defstruct game_field: [], width: 3, height: 3
 
+  def empty_field, do: @empty_field
+
   @spec initialize(integer, integer) :: __MODULE__.t()
   def initialize(width \\ 3, height \\ 3) do
     %__MODULE__{
