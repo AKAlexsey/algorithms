@@ -4,15 +4,21 @@ defmodule Algorithms.PriorityQueue.Test do
   alias Algorithms.PriorityQueue.{Field, Algorithm, FieldQueue}
 
   def perform(shuffle_ratio \\ nil)
+
   def perform(shuffle_ratio) do
     Field.initialize()
     |> Field.shuffle(shuffle_ratio)
-    |> print_field_data()
     |> Algorithm.perform()
   end
+
   def perform(nil) do
     field()
-    |> print_field_data()
+    |> Algorithm.perform()
+  end
+
+  def perform_field(w, h, ratio) do
+    Field.initialize(w, h)
+    |> Field.shuffle(ratio)
     |> Algorithm.perform()
   end
 

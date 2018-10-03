@@ -13,7 +13,7 @@ defmodule Algorithms.PriorityQueue.FieldQueue do
     -1 *
       (hamming_distance(game_field, standard_field, width, height) +
          manhattan_distance(game_field, standard_field, width, height) +
-           distance_to_search_tile(field))
+         distance_to_search_tile(field))
   end
 
   defp hamming_distance(game_field, standard_field, width, height) do
@@ -51,25 +51,30 @@ defmodule Algorithms.PriorityQueue.FieldQueue do
     end)
   end
 
-  defp distance_to_search_tile(%{game_field: game_field, width: width, height: height} = field) do
+  defp distance_to_search_tile(%{width: width, height: height} = field) do
     {x, y} = Field.empty_tile_coordinate(field)
-    near_points = (-1..1)
-    |> Enum.reduce([], fn dx, acc1 ->
-      (-1..1)
-      |> Enum.reduce(acc1, fn dy, acc2 ->
-        if(dx == 0 and dy == 0) do
-          acc2
-        else
-          acc2 ++ [{x + dx, y + dy}]
-        end
+
+    near_points =
+      -1..1
+      |> Enum.reduce([], fn dx, acc1 ->
+        -1..1
+        |> Enum.reduce(acc1, fn dy, acc2 ->
+          if(dx == 0 and dy == 0) do
+            acc2
+          else
+            acc2 ++ [{x + dx, y + dy}]
+          end
+        end)
       end)
-    end)
 
-    near_points_count = near_points
-    |> Enum.filter(fn {px, py} -> px >= 0 and px <= (width - 1) and py >= 0 and py <= (height - 1) end)
-    |> length()
+    near_points_count =
+      near_points
+      |> Enum.filter(fn {px, py} ->
+        px >= 0 and px <= width - 1 and py >= 0 and py <= height - 1
+      end)
+      |> length()
 
-    (width * height - 1 - near_points_count)
+    width * height - 1 - near_points_count
   end
 
   defp get_value(field, i, j) do
@@ -80,20 +85,19 @@ defmodule Algorithms.PriorityQueue.FieldQueue do
 
   defp find_indexes(value, standard_field, width, height) do
     0..(height - 1)
-    |> Enum.reduce_while({}, fn j, pair1 ->
-      result1 =
-        0..(width - 1)
-        |> Enum.reduce_while({}, fn i, pair12 ->
-          if(value == get_value(standard_field, i, j)) do
-            {:halt, {i, j}}
-          else
-            {:cont, {}}
-          end
-        end)
-        |> case do
-          {x, y} -> {:halt, {x, y}}
-          {} -> {:cont, {}}
+    |> Enum.reduce_while({}, fn j, _pair1 ->
+      0..(width - 1)
+      |> Enum.reduce_while({}, fn i, _pair12 ->
+        if(value == get_value(standard_field, i, j)) do
+          {:halt, {i, j}}
+        else
+          {:cont, {}}
         end
+      end)
+      |> case do
+        {x, y} -> {:halt, {x, y}}
+        {} -> {:cont, {}}
+      end
     end)
   end
 end

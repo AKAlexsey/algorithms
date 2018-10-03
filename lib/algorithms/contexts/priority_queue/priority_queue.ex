@@ -19,14 +19,24 @@ defmodule Algorithms.PriorityQueue.PriorityQueue do
 
       @spec insert(%QueueStructure{}, any()) :: %QueueStructure{}
       def insert(
-            %QueueStructure{elements: elements, trash: trash, size: size, max_priority: max, min_priority: min} =
-              queue,
+            %QueueStructure{
+              elements: elements,
+              trash: trash,
+              size: size,
+              max_priority: max,
+              min_priority: min
+            } = queue,
             element
           ) do
         priority = priority_function(element)
+        element_present = Enum.any?(elements, &(&1 == element))
+        trash_present = Enum.any?(trash, &(&1 == element))
 
         {new_elements, new_max_priority, new_min_priority} =
           cond do
+            element_present || trash_present ->
+              {elements, max, min}
+
             priority > max ->
               {elements ++ [element], priority, min}
 
@@ -46,30 +56,11 @@ defmodule Algorithms.PriorityQueue.PriorityQueue do
         }
       end
 
-      # By the way. After optimization - removing duplication - it's no more logarithmik :'(
       defp logarithmik_insert(elements, trash, element, priority, size) do
-        element_present = Enum.any?(elements, &(&1.game_field === element.game_field))
-        if(element_present) do
-          IO.puts("!!! element inside elements")
-          IO.inspect(element)
-          IO.puts("-----")
-        end
-        trash_present = Enum.any?(trash, &(&1.game_field === element.game_field))
-        if(trash_present) do
-          IO.puts("!!! element inside trash")
-          IO.inspect(element)
-          IO.puts("-----")
-        end
-        if !element_present && !trash_present do
-          IO.puts("!!! insert")
-          index = get_index(elements, priority, size - 1, Integer.floor_div(size, 2))
+        index = get_index(elements, priority, size - 1, Integer.floor_div(size, 2))
 
-          elements
-          |> List.insert_at(index, element)
-        else
-          IO.puts("!!! does not insert")
-          elements
-        end
+        elements
+        |> List.insert_at(index, element)
       end
 
       defp get_index(elements, priority, max_index, index) do
@@ -99,10 +90,19 @@ defmodule Algorithms.PriorityQueue.PriorityQueue do
       end
 
       @spec pop(%QueueStructure{}) :: {%QueueStructure{}, any()}
-      def pop(queue = %{elements: elements, trash: trash, size: size, min_priority: min, max_priority: max})
+      def pop(
+            queue = %{
+              elements: elements,
+              trash: trash,
+              size: size,
+              min_priority: min,
+              max_priority: max
+            }
+          )
           when size > 0 do
         new_size = size - 1
         element = Enum.at(elements, new_size)
+
         {
           %QueueStructure{
             elements: Enum.take(elements, new_size),
