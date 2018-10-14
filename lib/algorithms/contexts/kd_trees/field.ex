@@ -11,5 +11,7 @@ defmodule Algorithms.KDTrees.Field do
   this API will use in appropriate field operations.
   """
 
+  @type t :: %__MODULE__{}
+
   defstruct maxx: nil, maxy: nil, points_set: nil, point_class: nil
 end
