@@ -14,6 +14,9 @@ defmodule Algorithms.KDTrees.SimplePoint do
     %__MODULE__{x: x, y: y}
   end
 
+  @spec empty_set() :: any()
+  def empty_set(), do: []
+
   @spec insert(points_set :: any(), point :: PointClass.t()) :: any()
   def insert(set, %__MODULE__{} = point) when is_list(set), do: set ++ [point]
 
