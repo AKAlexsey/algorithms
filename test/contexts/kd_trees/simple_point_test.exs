@@ -3,6 +3,26 @@ defmodule Algorithms.PriorityQueue.SimpleSimplePointTest do
 
   alias Algorithms.KDTrees.{SimplePoint, Rectangle}
 
+  describe "#initialize" do
+    test "Initialize new point with given coordinates" do
+      x = 0.3
+      y = 0.4
+      assert %SimplePoint{x: ^x, y: ^y} = SimplePoint.initialize(x, y)
+    end
+
+    test "Raise rrror is x is not float" do
+      x = 1
+      y = 0.4
+      assert_raise FunctionClauseError, fn -> SimplePoint.initialize(x, y) end
+    end
+
+    test "Raise rrror is y is not float" do
+      x = 0.4
+      y = 1
+      assert_raise FunctionClauseError, fn -> SimplePoint.initialize(x, y) end
+    end
+  end
+
   describe "#insert" do
     setup do
       set = [

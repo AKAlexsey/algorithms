@@ -9,6 +9,11 @@ defmodule Algorithms.KDTrees.SimplePoint do
 
   alias Algorithms.KDTrees.Rectangle
 
+  @spec initialize(x :: float, y :: float) :: %__MODULE__{}
+  def initialize(x, y) when is_float(x) and is_float(y) do
+    %__MODULE__{x: x, y: y}
+  end
+
   @spec insert(points_set :: any(), point :: PointClass.t()) :: any()
   def insert(set, %__MODULE__{} = point) when is_list(set), do: set ++ [point]
 
