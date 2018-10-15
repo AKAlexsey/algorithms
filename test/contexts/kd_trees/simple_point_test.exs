@@ -1,7 +1,7 @@
 defmodule Algorithms.PriorityQueue.SimpleSimplePointTest do
   use Algorithms.ConnCase
 
-  alias Algorithms.KDTrees.SimplePoint
+  alias Algorithms.KDTrees.{SimplePoint, Rectangle}
 
   describe "#insert" do
     setup do
@@ -77,7 +77,6 @@ defmodule Algorithms.PriorityQueue.SimpleSimplePointTest do
 
     test "Return all nearest points #1 if their count more than one", %{set: set, p1: p1, p2: p2} do
       result = SimplePoint.nearest(set, %SimplePoint{x: 0.2, y: 0.4})
-      IO.inspect(result)
       assert length(result) == 2
       assert Enum.any?(result, fn p -> p == p1 end)
       assert Enum.any?(result, fn p -> p == p2 end)
@@ -94,5 +93,28 @@ defmodule Algorithms.PriorityQueue.SimpleSimplePointTest do
   end
 
   describe "#range" do
+    setup do
+      p1 = %SimplePoint{x: 0.3, y: 0.4}
+      p2 = %SimplePoint{x: 0.1, y: 0.4}
+      set = [p1, p2, %SimplePoint{x: 0.33, y: 0.15}]
+      rectangle = %Rectangle{minx: 0.05, maxx: 0.31, miny: 0.3, maxy: 0.5}
+
+      {:ok, set: set, p1: p1, p2: p2, rectangle: rectangle}
+    end
+
+    test "Return all range points those belong to rectangle", %{set: set, p1: p1, p2: p2, rectangle: r} do
+      result = SimplePoint.range(set, r)
+      assert length(result) == 2
+      assert Enum.any?(result, fn p -> p == p1 end)
+      assert Enum.any?(result, fn p -> p == p2 end)
+    end
+
+    test "Raise error if set is not list", %{rectangle: r} do
+      assert_raise FunctionClauseError, fn -> SimplePoint.range(nil, r) end
+    end
+
+    test "Raise error if rectangle is not %Rectangle{}", %{set: set} do
+      assert_raise FunctionClauseError, fn -> SimplePoint.range(set, %{x: 0.2, y: 0.2}) end
+    end
   end
 end
