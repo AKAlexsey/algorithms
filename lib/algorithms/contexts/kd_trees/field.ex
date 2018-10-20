@@ -1,7 +1,7 @@
 defmodule Algorithms.KDTrees.Field do
   @moduledoc """
   Describe game field. No matter what algorithm. Contains field parameters.
-  Set of points. And point class. Those must contain API:
+  Set of points. And point module. Those must contain API:
 
   @spec initialize(x :: float, y :: float) :: PointClass.t()
   @spec empty_set() :: any()
@@ -15,64 +15,64 @@ defmodule Algorithms.KDTrees.Field do
 
   @type t :: %__MODULE__{}
 
-  defstruct maxx: nil, maxy: nil, set: nil, point_class: nil
+  defstruct maxx: nil, maxy: nil, set: nil, point_module: nil
 
   alias Algorithms.KDTrees.Rectangle
 
-  def initialize(maxx, maxy, p_class) do
+  # TODO make polymorphism by protocols for different point modules
+  def initialize(maxx, maxy, p_module) do
     %__MODULE__{
       maxx: maxx,
       maxy: maxy,
-      set: p_class.empty_set(),
-      point_class: p_class
+      set: p_module.empty_set(),
+      point_module: p_module
     }
   end
 
-  def add_random_point(%__MODULE__{
-        maxx: maxx,
-        maxy: maxy,
-        set: set,
-        point_class: p_class
-      }) do
-    point = p_class.initialize(:random.uniform() * maxx, :random.uniform() * maxy)
+  def add_random_point(%__MODULE__{point_module: p_module, set: set} = field) do
+    point = random_point(field)
 
-    %__MODULE__{
-      maxx: maxx,
-      maxy: maxy,
-      set: p_class.insert(set, point),
-      point_class: p_class
-    }
+    %{field | set: p_module.insert(set, point)}
+  end
+
+  def random_point(%__MODULE__{maxx: maxx, maxy: maxy, point_module: p_module}) do
+    {x, y} = random_coordinates({maxx, maxy})
+    p_module.initialize(x, y)
+  end
+
+  def random_coordinates({maxx, maxy}) do
+    {:random.uniform() * maxx, :random.uniform() * maxy}
   end
 
   def add_point(%__MODULE__{
                         maxx: maxx,
                         maxy: maxy,
                         set: set,
-                        point_class: p_class
+                        point_module: p_module
                       }, x, y) do
     if x >= 0 and x <= maxx and y >= 0 and y <= maxy do
-      point = p_class.initialize(x, y)
+      point = p_module.initialize(x, y)
 
       %__MODULE__{
         maxx: maxx,
         maxy: maxy,
-        set: p_class.insert(set, point),
-        point_class: p_class
+        set: p_module.insert(set, point),
+        point_module: p_module
       }
     else
       raise FunctionClauseError
     end
   end
 
-  def contains(field = %{set: set, point_class: p_class}, point = %{__struct__: p_class}) do
-    p_class.contains(set, point)
+  def contains(field = %{set: set, point_module: p_module}, point = %{__struct__: p_module}) do
+    p_module.contains(set, point)
   end
 
-  def nearest(field = %{set: set, point_class: p_class}, point = %{__struct__: p_class}) do
-    p_class.nearest(set, point)
+  def nearest(field = %{set: set, point_module: p_module}, point = %{__struct__: p_module}) do
+    p_module.nearest(set, point)
   end
 
-  def range(field = %{set: set, point_class: p_class}, rectangle = %Rectangle{}) do
-    p_class.range(set, rectangle)
+  def range(field = %{set: set, point_module: p_module}, rectangle = %Rectangle{}) do
+    p_module.range(set, rectangle)
   end
 end
