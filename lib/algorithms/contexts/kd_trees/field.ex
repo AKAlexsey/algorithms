@@ -35,12 +35,12 @@ defmodule Algorithms.KDTrees.Field do
     %{field | set: p_module.insert(set, point)}
   end
 
-  def random_point(%__MODULE__{maxx: maxx, maxy: maxy, point_module: p_module}) do
-    {x, y} = random_coordinates({maxx, maxy})
+  def random_point(%__MODULE__{point_module: p_module} = field) do
+    {x, y} = random_coordinates(field)
     p_module.initialize(x, y)
   end
 
-  def random_coordinates({maxx, maxy}) do
+  def random_coordinates(%__MODULE__{maxx: maxx, maxy: maxy}) do
     {:random.uniform() * maxx, :random.uniform() * maxy}
   end
 

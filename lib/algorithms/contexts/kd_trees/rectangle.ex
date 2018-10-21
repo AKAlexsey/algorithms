@@ -6,4 +6,8 @@ defmodule Algorithms.KDTrees.Rectangle do
   @type t :: %__MODULE__{}
 
   defstruct minx: nil, maxx: nil, miny: nil, maxy: nil
+
+  def initialize(minx, maxx, miny, maxy) do
+    %__MODULE__{minx: minx, maxx: maxx, miny: miny, maxy: maxy}
+  end
 end
